@@ -89,7 +89,7 @@ footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border
   <div class="figures">
     <div><b id="d30">…</b><small>Up in the last 30 days</small></div>
     <div><b id="d90">…</b><small>Up in the last 90 days</small></div>
-    <div><b id="speed">…</b><small>Response time, latest check</small></div>
+    <div><b id="speed">…</b><small>Recent response time</small></div>
   </div>
 
   <p class="note">Something not working but this page says it is? Tell the OWSI team. Grey days are before checks began on 25 Nov 2026.</p>
@@ -111,7 +111,7 @@ async function load() {
     const m = list.psp.monitors.find((x) => x.monitorId === MONITOR);
     const times = (one.monitor && one.monitor.responseTimes) || [];
     const last = times[times.length - 1];
-    if (m.statusClass === "success") say("up", "OWSI Notebook is working", last ? `Last checked ${last.datetime} UTC.` : "Checked every 5 minutes.");
+    if (m.statusClass === "success") say("up", "OWSI Notebook is working", `Checked every 5 minutes. This page updated at ${new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}.`);
     else if (m.statusClass === "danger") say("down", "OWSI Notebook is down right now", "The team is told automatically. Please try again in a few minutes.");
     else say("unknown", "Status is not known yet", "The checker is starting or paused.");
 
