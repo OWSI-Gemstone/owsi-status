@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OWSI Notebook status</title>
+<meta name="description" content="Is OWSI Notebook working right now? Live status and uptime.">
+<link rel="icon" href="favicon.png">
+<style>
+/* Hallmark v2.0.0 · shape: single status sheet · theme: OWSI brand (locked by request, AGENTS.md tokens) · genre: modern-minimal · signature: the one-line answer, set big, with 90 days of uptime under it */
+/* critique: one question per visit ("is it working?"), answered first and largest; everything else is evidence under it */
+:root {
+  --green: #1b4d3e; --green-soft: #e8f1ed; --brass: #8E6A2C;
+  --red: #b42318; --red-soft: #fdecea; --amber: #b54708; --amber-soft: #fef3e2;
+  --surface: #fbfbfb; --panel: #ffffff; --muted-bg: #f3f4f6; --border: #e5e7eb; --border-strong: #d1d5db;
+  --ink: #111827; --ink-2: #374151; --ink-3: #6b7280; --ink-4: #9ca3af;
+  --font: Calibri, Aptos, "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { overflow-x: clip; margin: 0; }
+body { background: var(--surface); color: var(--ink); font-family: var(--font); font-size: 17px; line-height: 1.5; }
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 48px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header img { height: 44px; width: auto; display: block; }
+header a { color: var(--ink-2); font-size: 15px; text-decoration: underline; text-underline-offset: 3px; border-radius: 4px; }
+header a:hover { color: var(--green); }
+header a:active, .note a:active, footer a:active { color: var(--green); opacity: .8; }
+a:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; transition: none; }
+
+.answer { margin-top: 48px; padding: 32px; border-radius: 12px; background: var(--green-soft); border: 1px solid var(--border); }
+.answer[data-state="down"] { background: var(--red-soft); }
+.answer[data-state="unknown"] { background: var(--muted-bg); }
+.answer h1 { margin: 0; font-size: clamp(30px, 6vw, 46px); line-height: 1.1; font-weight: 700; color: var(--green); text-wrap: balance; overflow-wrap: break-word; min-width: 0; }
+.answer[data-state="down"] h1 { color: var(--red); }
+.answer[data-state="unknown"] h1 { color: var(--ink-2); }
+.answer p { margin: 12px 0 0; color: var(--ink-2); }
+
+h2 { font-size: 20px; margin: 40px 0 12px; font-weight: 700; color: var(--ink); }
+.bars { display: grid; grid-template-columns: repeat(90, minmax(0, 1fr)); gap: 2px; height: 40px; }
+.bars span { border-radius: 2px; background: var(--border); }
+.bars span[data-v="good"] { background: var(--green); }
+.bars span[data-v="dip"] { background: var(--amber); }
+.bars span[data-v="bad"] { background: var(--red); }
+.scale { display: flex; justify-content: space-between; margin-top: 8px; font-size: 14px; color: var(--ink-3); }
+
+.figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 8px; }
+.figures div { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.figures b { display: block; font-size: 28px; font-variant-numeric: tabular-nums; color: var(--ink); }
+.figures small { font-size: 14px; color: var(--ink-3); }
+
+.note { margin-top: 40px; font-size: 15px; color: var(--ink-3); }
+.note a, footer a { color: var(--ink-2); text-underline-offset: 3px; }
+.short { display: none; }
+footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14px; color: var(--ink-3); }
+
+@media (max-width: 520px) {
+  .answer { padding: 24px; margin-top: 32px; }
+  .bars { grid-template-columns: repeat(45, minmax(0, 1fr)); }
+  .bars span:nth-child(-n+45) { display: none; }
+  .long { display: none; }
+  .short { display: inline; }
+  .figures { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .answer { transition: background-color 200ms ease; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="wordmark.png" alt="OWSI" width="97" height="44">
+    <a href="https://notebook.owsiusa.com">Open OWSI Notebook</a>
+  </header>
+
+  <section class="answer" id="answer" data-state="unknown" aria-live="polite">
+    <h1 id="headline">Checking OWSI Notebook…</h1>
+    <p id="detail">The notebook is checked every 5 minutes.</p>
+    <noscript><p>Turn on JavaScript to see the live status, or <a href="https://stats.uptimerobot.com/tDR10pRG9z">see it on UptimeRobot</a>.</p></noscript>
+  </section>
+
+  <h2>Uptime by day</h2>
+  <div class="bars" id="bars" role="img" aria-label="Uptime for each of the last 90 days"></div>
+  <div class="scale"><span><span class="long">90 days ago</span><span class="short">45 days ago</span></span><span>Today</span></div>
+
+  <div class="figures">
+    <div><b id="d30">…</b><small>Up in the last 30 days</small></div>
+    <div><b id="d90">…</b><small>Up in the last 90 days</small></div>
+    <div><b id="speed">…</b><small>Response time, latest check</small></div>
+  </div>
+
+  <p class="note">Something not working but this page says it is? Tell the OWSI team. Grey days are before checks began on 25 Nov 2026.</p>
+  <footer>Checks by <a href="https://stats.uptimerobot.com/tDR10pRG9z">UptimeRobot</a>. This page is separate from the notebook, so it stays up when the notebook is down.</footer>
+</div>
+<script>
+const PAGE = "https://stats.uptimerobot.com/api";
+const KEY = "tDR10pRG9z", MONITOR = 804811799;
+const $ = (id) => document.getElementById(id);
+const say = (state, headline, detail) => { $("answer").dataset.state = state; $("headline").textContent = headline; $("detail").textContent = detail; };
+const pct = (r) => r && r.ratio !== undefined ? `${Number(r.ratio).toFixed(2).replace(/\.00$/, "")}%` : "…";
+
+async function load() {
+  try {
+    const [list, one] = await Promise.all([
+      fetch(`${PAGE}/getMonitorList/${KEY}?page=1`, { cache: "no-store" }).then((r) => r.json()),
+      fetch(`${PAGE}/getMonitor/${KEY}?m=${MONITOR}`, { cache: "no-store" }).then((r) => r.json()),
+    ]);
+    const m = list.psp.monitors.find((x) => x.monitorId === MONITOR);
+    const times = (one.monitor && one.monitor.responseTimes) || [];
+    const last = times[times.length - 1];
+    if (m.statusClass === "success") say("up", "OWSI Notebook is working", last ? `Last checked ${last.datetime} UTC.` : "Checked every 5 minutes.");
+    else if (m.statusClass === "danger") say("down", "OWSI Notebook is down right now", "The team is told automatically. Please try again in a few minutes.");
+    else say("unknown", "Status is not known yet", "The checker is starting or paused.");
+
+    const started = new Date(m.createdAt.replace(" ", "T") + "Z").toISOString().slice(0, 10);
+    $("bars").replaceChildren(...m.dailyRatios.slice(-90).map((d) => {
+      const s = document.createElement("span");
+      const v = Number(d.ratio);
+      s.dataset.v = d.date < started ? "none" : v >= 99.9 ? "good" : v >= 95 ? "dip" : "bad";
+      s.title = d.date < started ? `${d.date}: not checked yet` : `${d.date}: ${pct(d)} up`;
+      return s;
+    }));
+    $("d30").textContent = pct(m["30dRatio"]);
+    $("d90").textContent = pct(m["90dRatio"]);
+    $("speed").textContent = last ? `${last.value} ms` : "…";
+  } catch {
+    say("unknown", "Could not load the status", "Try again shortly, or open the notebook directly.");
+  }
+}
+load();
+setInterval(load, 60000);
+</script>
+</body>
+</html>
